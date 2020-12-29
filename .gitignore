@@ -1,3 +1,4 @@
 .idea/
-src/main/resources/config/config.properties
 lib/
+src/main/resources/config/config.properties
+
