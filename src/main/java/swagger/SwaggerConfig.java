@@ -24,7 +24,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select() // ApiSelectorBuilder를 생성
-                .apis(RequestHandlerSelectors.basePackage("com.example.controller"))//API 스펙이 작성되어 있는 패키지를 지정
+                .apis(RequestHandlerSelectors.basePackage("controller"))//API 스펙이 작성되어 있는 패키지를 지정
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Arrays.asList(apiKey()));
@@ -36,7 +36,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Beginner_Example_API_Document")
+                .title("BeginnerProject_board_API_Document")
                 .description("API 설명")
                 .version("1.0.0")
                 .build();

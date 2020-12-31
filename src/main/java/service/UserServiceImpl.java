@@ -17,4 +17,14 @@ public class UserServiceImpl implements UserService{
     public List<User> getUserList() {
         return userMapper.getUserList();
     }
+
+    @Override
+    public String getTime() {
+        return userMapper.getTime();
+    }
+
+    @Override
+    public boolean register(User user) {
+        return userMapper.createUser(user) == 1;
+    }
 }
