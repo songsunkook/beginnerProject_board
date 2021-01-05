@@ -5,14 +5,17 @@
 
 <mapper namespace="repository.UserMapper">
 
-
-    <select id="getTime" resultType="string">
-        select now()
+    <select id="getUserByAccountId" resultType="domain.User">
+        select * from user where account_id = #{account_id}
     </select>
 
 
     <insert id="createUser">
         insert into user (account_id, password, nickname) values(#{account_id}, #{password}, #{nickname})
     </insert>
+
+    <update id="updateUser">
+        update user set password = #{password}, nickname = #{nickname} where account_id = #{account_id}
+    </update>
 
 </mapper>

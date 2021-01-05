@@ -6,7 +6,7 @@ public class Board {
     protected Long id;
     protected String title;
     protected String content;
-    protected String author;
+    protected Long user_id;
     protected Timestamp created_at;
     protected Timestamp updated_at;
 
@@ -34,12 +34,12 @@ public class Board {
         this.content = content;
     }
 
-    public String getAuthor() {
-        return author;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public Timestamp getCreated_at() {

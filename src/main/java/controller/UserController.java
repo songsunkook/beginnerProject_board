@@ -20,27 +20,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String root() throws JsonProcessingException{
-        System.out.println("루트");
-        System.out.println(new ObjectMapper().writeValueAsString(userService.getUserList()));
-
-        return "home";
-    }
-
-    @RequestMapping(value = "/gettime", method = RequestMethod.GET)
-    public String test() throws JsonProcessingException {
-        System.out.println(new ObjectMapper().writeValueAsString(userService.getTime()));
-        return "hello";
-    }
-
     @ResponseBody
-    @RequestMapping(value = "/register",method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "전달받은 정보를 기반으로 회원가입을 진행합니다.")
     public ResponseEntity<String> register(@RequestBody User user){
+        //User temp = userService.register(user);
+        //return new ResponseEntity<>(, HttpStatus.OK);
         if(userService.register(user))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
-            return new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    @ApiOperation(value = "회원 정보 수정", notes = "account_id를 기반으로 닉네임과 비밀번호를 변경합니다.")
+    public ResponseEntity<String> updateUser(@RequestBody User user){
+        //비밀번호 확인 절차 필요
+
+        if(userService.updateUser(user))
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
