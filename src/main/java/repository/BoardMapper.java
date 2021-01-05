@@ -11,4 +11,6 @@ public interface BoardMapper {
     Board getArticleById(Long articleId);
     List<Board> getList();
     int updateArticle(Board board);
+    String getNicknameByBoard(Board board);
+
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import domain.Board;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.BoardService;
+import service.UserService;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.List;
 
@@ -17,6 +20,8 @@ import java.util.List;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -34,6 +39,7 @@ public class BoardController {
     @RequestMapping(value = "/{article-id}", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 읽기", notes = "게시글을 읽습니다.")
     public ResponseEntity<Board> read(@PathVariable("article-id") Long articleId){
+        String nickname = userService.getUserById(articleId).getNickname();//Board와 함께 반환할 방법 ??
         return new ResponseEntity<>(boardService.readArticle(articleId), HttpStatus.OK);
     }
 

@@ -24,6 +24,13 @@
         updated_at = now()
         where id = #{id}
     </update>
-
+<!-- 특정 유저가 작성한 게시글 목록 출력할 때 활용 가능
+    <select id="getNicknameByBoard" resultType="String">
+        select user.nickname
+        from user
+        join board
+        on user.id = #{user_id}
+    </select>
+-->
 
 </mapper>

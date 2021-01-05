@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserService {
     boolean register(User user);
     boolean updateUser(User user);
+    User getUserById(Long id);
 }
