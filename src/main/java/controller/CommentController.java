@@ -37,9 +37,9 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{comment-id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{comment-id}", method = RequestMethod.PUT)
     @ApiOperation(value = "댓글 수정", notes = "작성된 댓글을 수정합니다.")
-    public ResponseEntity<String> updateComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId, @PathVariable("comment-id") Long commentId){
+    public ResponseEntity<String> updateComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId, @PathVariable("comment-id") Long commentId, HttpSession httpSession){
         //본인 확인 절차 필요
 
         comment.setArticle_id(articleId);

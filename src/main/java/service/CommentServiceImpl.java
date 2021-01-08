@@ -26,4 +26,9 @@ public class CommentServiceImpl implements CommentService{
     public List<Comment> getComments(Long articleId) {
         return commentMapper.getComments(articleId);
     }
+
+    @Override
+    public Comment getCommentById(Long commentId) {
+        return commentMapper.getCommentById(commentId);
+    }
 }

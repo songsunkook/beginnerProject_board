@@ -57,7 +57,7 @@ public class UserController {
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ApiOperation(value = "회원 정보 수정", notes = "account_id를 기반으로 닉네임과 비밀번호를 변경합니다.")
     public ResponseEntity<String> updateUser(@ApiParam(value = "(required: account_id, password, nickname)", required = true) @RequestBody User user){
-        //비밀번호 확인 절차 필요 ( 비밀번호 확인 후 여기로 진입해야 함, 어떻게? )
+        //비밀번호 확인 절차 필요 ( 현재 비밀번호를 확인 후 여기로 진입해야 함, 어떻게? )
         if(userService.updateUser(user))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else

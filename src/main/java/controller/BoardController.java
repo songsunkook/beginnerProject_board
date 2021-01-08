@@ -27,7 +27,7 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 작성", notes = "게시글을 작성합니다.")
-    public ResponseEntity<String> write(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, HttpSession httpSession){
+    public ResponseEntity<String> createArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, HttpSession httpSession){
         //로그인 여부 확인 절차 필요
 
         User user = (User)httpSession.getAttribute("USER");
@@ -42,7 +42,7 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "/{article-id}", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 읽기", notes = "게시글을 읽습니다.")
-    public ResponseEntity<Board> read(@PathVariable("article-id") Long articleId){
+    public ResponseEntity<Board> readArticle(@PathVariable("article-id") Long articleId){
         //닉네임을 Board와 함께 반환할 방법 ?? 굳이 함께 반환해야되나
         return new ResponseEntity<>(boardService.readArticle(articleId), HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class BoardController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{article-id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{article-id}", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "등록된 게시물을 수정합니다.")
     public ResponseEntity<String> updateArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, @PathVariable("article-id") Long articleId){
         //본인 확인 절차 필요

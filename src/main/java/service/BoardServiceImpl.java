@@ -20,6 +20,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public Board getArticleById(Long articleId) {
+        return boardMapper.getArticleById(articleId);
+    }
+
+    @Override
     public Board readArticle(Long articleId) {
         return boardMapper.getArticleById(articleId);
     }
