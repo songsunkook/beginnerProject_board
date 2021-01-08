@@ -11,5 +11,6 @@
     <context:component-scan base-package="controller"/>
     <context:component-scan base-package="service"/>
     <context:component-scan base-package="swagger"/>
+    <context:component-scan base-package="util"/>
 
 </beans>

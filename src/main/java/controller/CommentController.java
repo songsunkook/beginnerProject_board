@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Comment;
+import domain.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.CommentService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,13 +23,16 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ApiOperation(value = "댓글 작성", notes = "댓글을 작성합니다.")
-    public ResponseEntity<String> createComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId){
-        //아직 로그인을 구현 못했기 때문에 user_id는 수동으로 넣어줘야 함
+    public ResponseEntity<String> createComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId, HttpSession httpSession){
+        //로그인 여부 확인 절차 필요
 
-        comment.setArticle_id(articleId);
-        if(commentService.createComment(comment))
-            return new ResponseEntity<>("success", HttpStatus.OK);
-        else
+        User user = (User)httpSession.getAttribute("USER");
+        if(user != null){
+            comment.setArticle_id(articleId);
+            comment.setUser_id(user.getId());
+            if(commentService.createComment(comment))
+                return new ResponseEntity<>("success", HttpStatus.OK);
+        }
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -49,8 +54,6 @@ public class CommentController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ApiOperation(value = "댓글 조회", notes = "특정 게시글의 댓글을 조회합니다.")
     public ResponseEntity<List<Comment>> updateComment(@PathVariable("article-id") Long articleId){
-        //본인 확인 절차 필요
-
         return new ResponseEntity<>(commentService.getComments(articleId), HttpStatus.OK);
     }
 }

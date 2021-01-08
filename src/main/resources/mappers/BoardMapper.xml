@@ -5,7 +5,7 @@
 
 <mapper namespace="repository.BoardMapper">
 
-    <insert id="createBoard">
+    <insert id="createArticle">
         insert into board (title, content, user_id) values(#{title}, #{content}, #{user_id})
     </insert>
 

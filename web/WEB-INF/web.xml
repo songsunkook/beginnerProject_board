@@ -22,4 +22,10 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!-- 자동 로그아웃 시간 ( 분 ) -->
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
 </web-app>

@@ -16,9 +16,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public boolean createArticle(Board board) {
-        //user_id 설정
-        //board.setUser_id();
-
         return boardMapper.createArticle(board) == 1;
     }
 

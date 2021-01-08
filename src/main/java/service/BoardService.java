@@ -1,6 +1,7 @@
 package service;
 
 import domain.Board;
+import domain.User;
 
 import java.util.List;
 
