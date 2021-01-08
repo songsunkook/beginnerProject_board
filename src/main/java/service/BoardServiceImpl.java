@@ -24,7 +24,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board readArticle(Long articleId) {
-        //게시물 보기 : 닉네임을 join으로 출력
         return boardMapper.getArticleById(articleId);
     }
 

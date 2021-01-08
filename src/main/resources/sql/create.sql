@@ -19,9 +19,9 @@ CREATE TABLE `beginner_project`.`board` (
 
 CREATE TABLE `beginner_project`.`comment` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `post_id` INT NOT NULL,
+  `article_id` INT NOT NULL,
   `content` VARCHAR(300) NOT NULL,
-  `author` VARCHAR(50) NOT NULL,
+  `user_id` INT NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`));

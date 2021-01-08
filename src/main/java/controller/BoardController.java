@@ -53,7 +53,9 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "/{article-id}", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 수정", notes = "등록된 게시물을 수정합니다.")
-    public ResponseEntity<String> updateArticle(@RequestBody Board board, @PathVariable("article-id") Long articleId){
+    public ResponseEntity<String> updateArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, @PathVariable("article-id") Long articleId){
+        //본인 확인 절차 필요
+
         board.setId(articleId);
         if(boardService.updateArticle(board))
             return new ResponseEntity<>("success", HttpStatus.OK);

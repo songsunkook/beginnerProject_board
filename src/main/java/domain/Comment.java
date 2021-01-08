@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 public class Comment {
     protected Long id;
-    protected Long post_id;
+    protected Long article_id;
     protected String content;
-    protected String author;
+    protected Long user_id;
     protected Timestamp created_at;
     protected Timestamp updated_at;
 
@@ -18,12 +18,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getPost_id() {
-        return post_id;
+    public Long getArticle_id() {
+        return article_id;
     }
 
-    public void setPost_id(Long post_id) {
-        this.post_id = post_id;
+    public void setArticle_id(Long article_id) {
+        this.article_id = article_id;
     }
 
     public String getContent() {
@@ -34,12 +34,12 @@ public class Comment {
         this.content = content;
     }
 
-    public String getAuthor() {
-        return author;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public Timestamp getCreated_at() {
