@@ -2,6 +2,8 @@ package util;
 
 import domain.User;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,18 @@ public class ExceptionChecker {
     }
 
     //본인 확인 절차 - 게시물
-    @Before("execution(* controller.BoardController.updateArticle(..)) && args(articleId, httpSession)")
-    public void checkSelfArticle(Long articleId, HttpSession httpSession){
+    @Around("execution(* controller.BoardController.updateArticle(..)) && args(articleId, httpSession)")
+    public Object checkSelfArticle(ProceedingJoinPoint joinPoint, Long articleId, HttpSession httpSession) throws Throwable {
         User tryUser = (User)httpSession.getAttribute("USER");
         if(tryUser.getId() != boardService.getArticleById(articleId).getUser_id()){
             //예외처리
+            return null;
         }
+        else{
+            Object object = joinPoint.proceed();
+            return object;
+        }
+
     }
 
     //본인 확인 절차 - 댓글

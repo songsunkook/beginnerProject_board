@@ -20,7 +20,7 @@
         select * from comment where article_id = #{articleId}
     </select>
 
-    <select id="getCommentById">
+    <select id="getCommentById" resultType="domain.Comment">
         select * from comment where id = #{commentId}
     </select>
 
