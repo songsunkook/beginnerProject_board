@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import repository.UserMapper;
 import util.BcryptUtil;
 
+import javax.servlet.http.HttpSession;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -27,9 +29,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean login(User user) {
-        if(userMapper.getUserByAccountId(user.getAccount_id()) != null){
-            return bcryptUtil.checkPassword(user.getPassword(), userMapper.getUserByAccountId(user.getAccount_id()).getPassword());
+    public boolean login(User user, HttpSession httpSession) {
+        User loginUser = getUserByAccountId(user.getAccount_id());
+
+        if(loginUser != null && bcryptUtil.checkPassword(user.getPassword(), loginUser.getPassword())){
+            httpSession.setAttribute("userId", loginUser.getId());
+            return true;
         }
         else
             return false;

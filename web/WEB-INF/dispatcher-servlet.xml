@@ -15,4 +15,12 @@
     <context:component-scan base-package="swagger"/>
     <context:component-scan base-package="util"/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/board/**" />
+            <bean class="interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
 </beans>

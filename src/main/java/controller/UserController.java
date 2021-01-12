@@ -38,19 +38,24 @@ public class UserController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "전달받은 정보를 기반으로 로그인을 진행합니다.")
     public ResponseEntity<String> login(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user, HttpSession httpSession){
-        if(userService.login(user)){
-            httpSession.setAttribute("USER", userService.getUserByAccountId(user.getAccount_id()));
+        if(userService.login(user, httpSession))
             return new ResponseEntity<>("success", HttpStatus.OK);
-        }
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+
+//        if(userService.login(user)){
+//            httpSession.setAttribute("userId", userService.getUserByAccountId(user.getAccount_id()).getId());
+//            return new ResponseEntity<>("success", HttpStatus.OK);
+//        }
+//        else
+//            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseBody
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     @ApiOperation(value = "로그아웃", notes = "세션을 제거하여 로그아웃합니다.")
     public void logout(HttpSession httpSession){
-        httpSession.removeAttribute("USER");
+        httpSession.removeAttribute("userId");
     }
 
     @ResponseBody
