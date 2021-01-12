@@ -17,6 +17,12 @@
         insert into user (account_id, password, nickname) values(#{account_id}, #{password}, #{nickname})
     </insert>
 
+    <update id="rejoin">
+        update user set
+        deleted_at = null
+        where id = #{id}
+    </update>
+
     <update id="updateUser">
         update user set
         password = #{password},

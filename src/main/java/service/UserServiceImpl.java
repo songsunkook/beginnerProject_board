@@ -35,10 +35,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean login(User user, HttpSession httpSession) {
-        User loginUser = getUserByAccountId(user.getAccount_id());
+        User dbUser = getUserByAccountId(user.getAccount_id());
 
-        if(loginUser != null && bcryptUtil.checkPassword(user.getPassword(), loginUser.getPassword())){
-            httpSession.setAttribute("userId", loginUser.getId());
+        if(dbUser != null
+                && dbUser.getDeleted_at() == null
+                && httpSession.getAttribute("userId") == null
+                && bcryptUtil.checkPassword(user.getPassword(), dbUser.getPassword()))
+        {
+            httpSession.setAttribute("userId", dbUser.getId());
             return true;
         }
         else
@@ -48,6 +52,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public void logout(HttpSession httpSession) {
         httpSession.removeAttribute("userId");
+    }
+
+    @Override
+    public boolean rejoin(User user) {
+        User dbUser = getUserByAccountId(user.getAccount_id());
+
+        if(dbUser != null && bcryptUtil.checkPassword(user.getPassword(), dbUser.getPassword())){
+            return userMapper.rejoin(dbUser) == 1;
+        }
+        return false;
     }
 
     @Override

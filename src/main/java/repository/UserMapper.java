@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserMapper {
     int createUser(User user);
     int updateUser(User user);
+    int rejoin(User user);
     User getUserByAccountId(String accountId);
     User getUserById(Long id);
     List<User> getDeletedUsers();

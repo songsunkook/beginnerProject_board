@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/leaveId", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/leaveId", method = RequestMethod.POST)
     @ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴를 진행합니다. (DB 정보 제거는 30일 후에 진행됩니다.)")
     public ResponseEntity<String> deleteUser(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user, HttpSession httpSession){
         if(userService.softDeleteUser(user, httpSession))
@@ -71,5 +71,13 @@ public class UserController {
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    //재가입 구현 예정
+    @ResponseBody
+    @RequestMapping(value = "/rejoin", method = RequestMethod.POST)
+    @ApiOperation(value = "재가입", notes = "탈퇴한  ID를 복구합니다.")
+    public ResponseEntity<String> rejoin(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user){
+        if(userService.rejoin(user))
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
