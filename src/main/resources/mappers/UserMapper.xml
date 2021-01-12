@@ -25,7 +25,13 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteUser">
+    <update id="softDeleteUser">
+        update user set
+        deleted_at = now()
+        where id = #{id}
+    </update>
+
+    <delete id="hardDeleteUser">
         delete from user where id = #{id}
     </delete>
 

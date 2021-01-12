@@ -14,5 +14,6 @@ public interface UserMapper {
     User getUserByAccountId(String accountId);
     User getUserById(Long id);
     List<User> getDeletedUsers();
-    void deleteUser(User user);
+    void hardDeleteUser(User user);
+    int softDeleteUser(User user);
 }

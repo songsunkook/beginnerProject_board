@@ -7,8 +7,10 @@ import javax.servlet.http.HttpSession;
 public interface UserService {
     boolean register(User user);
     boolean login(User user, HttpSession httpSession);
+    void logout(HttpSession httpSession);
     boolean updateUser(User user);
     User getUserByAccountId(String accountId);
     User getUserById(Long id);
-    void deleteUser();
+    boolean softDeleteUser(User user, HttpSession httpSession);
+    void hardDeleteUser();
 }

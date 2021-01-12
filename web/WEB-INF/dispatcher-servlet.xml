@@ -27,7 +27,7 @@
         <!-- 서비스 구현 객체의 빈 이름을 인자로 줌 -->
         <property name="targetObject" ref="userServiceImpl" />
         <!-- 서비스 객체에서 주기적으로 실행될 메소드 지정 -->
-        <property name="targetMethod" value="deleteUser" />
+        <property name="targetMethod" value="hardDeleteUser" />
         <!-- 동시 실행 방지 -->
         <property name="concurrent" value="false" />
     </bean>

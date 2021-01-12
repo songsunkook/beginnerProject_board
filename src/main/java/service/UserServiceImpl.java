@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void logout(HttpSession httpSession) {
+        httpSession.removeAttribute("userId");
+    }
+
+    @Override
     public boolean updateUser(User user) {
         user.setPassword( bcryptUtil.Encrypt(user.getPassword()) );
         user.setId(userMapper.getUserByAccountId(user.getAccount_id()).getId());
@@ -63,7 +68,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUser(){
+    public boolean softDeleteUser(User user, HttpSession httpSession) {
+        Long userId = (Long)httpSession.getAttribute("userId");
+        User dbUser = getUserByAccountId(user.getAccount_id());
+        //1번째 인자 : NullPointerException 방지
+        //2번째 인자 : 로그인된 id와 입력받은 accountId의 DB 상 id가 일치하는지 (로그인된 사람 본인인지)
+        //3번째 인자 : accountId 와 password 가 match 되는지 (아이디 비밀번호 체크)
+        if( (userId != null) && (userId == dbUser.getId())  && login(user, httpSession)){
+            if(userMapper.softDeleteUser(dbUser) == 1){
+                httpSession.removeAttribute("userId");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void hardDeleteUser(){
         //탈퇴한 지 30일이 지난 유저 데이터는 자동으로 삭제
         //삭제 주기 : 매일 자정 (자세한 설정은 dispatcher-servlet.xml)
         Date now = new Date();
@@ -72,7 +93,7 @@ public class UserServiceImpl implements UserService{
             Date checkTime = new Date(deletedUsers.get(i).getDeleted_at().getTime());
             Long diffDay = ( now.getTime() - checkTime.getTime() ) / (24*60*60*1000);
             if(diffDay >= 30)
-                userMapper.deleteUser(deletedUsers.get(i));
+                userMapper.hardDeleteUser(deletedUsers.get(i));
         }
     }
 }

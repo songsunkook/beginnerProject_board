@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -42,30 +41,35 @@ public class UserController {
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-
-//        if(userService.login(user)){
-//            httpSession.setAttribute("userId", userService.getUserByAccountId(user.getAccount_id()).getId());
-//            return new ResponseEntity<>("success", HttpStatus.OK);
-//        }
-//        else
-//            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseBody
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     @ApiOperation(value = "로그아웃", notes = "세션을 제거하여 로그아웃합니다.")
-    public void logout(HttpSession httpSession){
-        httpSession.removeAttribute("userId");
+    public ResponseEntity<String> logout(HttpSession httpSession){
+        userService.logout(httpSession);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ApiOperation(value = "회원 정보 수정", notes = "account_id를 기반으로 닉네임과 비밀번호를 변경합니다.")
     public ResponseEntity<String> updateUser(@ApiParam(value = "(required: account_id, password, nickname)", required = true) @RequestBody User user){
-        //비밀번호 확인 절차 필요 ( 현재 비밀번호를 확인 후 여기로 진입해야 함, 어떻게? )
         if(userService.updateUser(user))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/leaveId", method = RequestMethod.DELETE)
+    @ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴를 진행합니다. (DB 정보 제거는 30일 후에 진행됩니다.)")
+    public ResponseEntity<String> deleteUser(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user, HttpSession httpSession){
+        if(userService.softDeleteUser(user, httpSession))
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    //재가입 구현 예정
 }
