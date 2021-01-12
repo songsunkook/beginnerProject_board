@@ -14,6 +14,7 @@ CREATE TABLE `beginner_project`.`board` (
   `title` VARCHAR(200) NOT NULL,
   `content` VARCHAR(3000) NOT NULL,
   `user_id` INT NOT NULL,
+  `views` INT NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL,

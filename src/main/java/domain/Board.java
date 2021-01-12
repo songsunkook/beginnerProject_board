@@ -7,6 +7,7 @@ public class Board {
     protected String title;
     protected String content;
     protected Long user_id;
+    protected Long views;
     protected Timestamp created_at;
     protected Timestamp updated_at;
     protected Timestamp deleted_at;
@@ -65,5 +66,13 @@ public class Board {
 
     public void setDeleted_at(Timestamp deleted_at) {
         this.deleted_at = deleted_at;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }

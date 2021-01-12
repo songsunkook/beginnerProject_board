@@ -59,8 +59,11 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board readArticle(Long articleId) {
-        if(getArticleById(articleId).getDeleted_at() == null)
-            return boardMapper.getArticleById(articleId);
+        Board board = getArticleById(articleId);
+        if(board.getDeleted_at() == null){
+            boardMapper.increaseViews(board);
+            return board;
+        }
         else
             return null;
     }

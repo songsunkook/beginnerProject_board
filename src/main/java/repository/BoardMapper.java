@@ -12,4 +12,5 @@ public interface BoardMapper {
     List<Board> getList();
     int updateArticle(Board board);
     int softDeleteArticle(Board board);
+    void increaseViews(Board board);
 }
