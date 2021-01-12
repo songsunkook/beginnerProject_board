@@ -8,6 +8,11 @@ import repository.UserMapper;
 import util.BcryptUtil;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 @Service
@@ -55,5 +60,19 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
+    }
+
+    @Override
+    public void deleteUser(){
+        //탈퇴한 지 30일이 지난 유저 데이터는 자동으로 삭제
+        //삭제 주기 : 매일 자정 (자세한 설정은 dispatcher-servlet.xml)
+        Date now = new Date();
+        List<User> deletedUsers = userMapper.getDeletedUsers();
+        for(int i = 0; i < deletedUsers.size(); i++){
+            Date checkTime = new Date(deletedUsers.get(i).getDeleted_at().getTime());
+            Long diffDay = ( now.getTime() - checkTime.getTime() ) / (24*60*60*1000);
+            if(diffDay >= 30)
+                userMapper.deleteUser(deletedUsers.get(i));
+        }
     }
 }

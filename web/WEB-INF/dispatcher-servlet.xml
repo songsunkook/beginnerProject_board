@@ -22,5 +22,30 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <!-- 잡 -->
+    <bean id="userJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 서비스 구현 객체의 빈 이름을 인자로 줌 -->
+        <property name="targetObject" ref="userServiceImpl" />
+        <!-- 서비스 객체에서 주기적으로 실행될 메소드 지정 -->
+        <property name="targetMethod" value="deleteUser" />
+        <!-- 동시 실행 방지 -->
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <!-- 트리거 -->
+    <bean id="userJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="userJob" />
+        <!-- 자정마다 실행되도록 지정 -->
+        <property name="cronExpression" value="0 0 0 * * ?" />
+    </bean>
+
+    <!-- 스케줄러 -->
+    <bean id="userJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <!-- 앞에서 설정한 트리거 등록 -->
+            <list><ref bean="userJobTrigger" /></list>
+        </property>
+    </bean>
+
 
 </beans>

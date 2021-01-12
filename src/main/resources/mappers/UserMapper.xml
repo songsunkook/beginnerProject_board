@@ -9,6 +9,9 @@
         select * from user where account_id = #{accountId}
     </select>
 
+    <select id="getDeletedUsers" resultType="domain.User">
+        select * from user where deleted_at is not null
+    </select>
 
     <insert id="createUser">
         insert into user (account_id, password, nickname) values(#{account_id}, #{password}, #{nickname})
@@ -21,5 +24,9 @@
         updated_at = now()
         where id = #{id}
     </update>
+
+    <delete id="deleteUser">
+        delete from user where id = #{id}
+    </delete>
 
 </mapper>
