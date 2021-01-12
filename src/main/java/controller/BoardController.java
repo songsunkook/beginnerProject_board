@@ -54,4 +54,14 @@ public class BoardController {
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{article-id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "게시글 삭제", notes = "등록된 게시물을 삭제합니다.")
+    public ResponseEntity<String> deleteArticle(@ApiParam(value = "(required: title, content)", required = true) @PathVariable("article-id") Long articleId, HttpSession httpSession){
+        if(boardService.softDeleteArticle(articleId, httpSession))
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

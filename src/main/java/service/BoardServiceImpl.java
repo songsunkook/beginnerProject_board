@@ -30,9 +30,23 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public boolean updateArticle(Board board, Long articleId, HttpSession httpSession) {
         Long tryUserId = (Long)httpSession.getAttribute("userId");
-        if(tryUserId == getArticleById(articleId).getUser_id()){
+        Board dbBoard = getArticleById(articleId);
+        if(dbBoard != null
+                && tryUserId == dbBoard.getUser_id()
+                && dbBoard.getDeleted_at() == null){
             board.setId(articleId);
             return boardMapper.updateArticle(board) == 1;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean softDeleteArticle(Long articleId, HttpSession httpSession) {
+        Long userId = (Long)httpSession.getAttribute("userId");
+        Board dbBoard = getArticleById(articleId);
+        if(userId == dbBoard.getUser_id()
+                && dbBoard.getDeleted_at() == null){
+            return boardMapper.softDeleteArticle(dbBoard) == 1;
         }
         return false;
     }
@@ -45,7 +59,10 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board readArticle(Long articleId) {
-        return boardMapper.getArticleById(articleId);
+        if(getArticleById(articleId).getDeleted_at() == null)
+            return boardMapper.getArticleById(articleId);
+        else
+            return null;
     }
 
     @Override

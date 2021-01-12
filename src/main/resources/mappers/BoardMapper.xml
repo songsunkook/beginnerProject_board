@@ -14,7 +14,7 @@
     </select>
 
     <select id="getList" resultType="domain.Board">
-        select * from board
+        select * from board where deleted_at is null
     </select>
 
     <update id="updateArticle">
@@ -22,6 +22,12 @@
         title = #{title},
         content = #{content},
         updated_at = now()
+        where id = #{id}
+    </update>
+
+    <update id="softDeleteArticle">
+        update board set
+        deleted_at = now()
         where id = #{id}
     </update>
 <!-- 특정 유저가 작성한 게시글 목록 출력할 때 활용 가능

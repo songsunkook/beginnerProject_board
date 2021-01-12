@@ -5,6 +5,7 @@ CREATE TABLE `beginner_project`.`user` (
   `nickname` VARCHAR(50) NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `account_id_UNIQUE` (`account_id` ASC) VISIBLE);
 
@@ -15,6 +16,7 @@ CREATE TABLE `beginner_project`.`board` (
   `user_id` INT NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
   PRIMARY KEY (`id`));
 
 CREATE TABLE `beginner_project`.`comment` (
@@ -24,4 +26,5 @@ CREATE TABLE `beginner_project`.`comment` (
   `user_id` INT NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
   PRIMARY KEY (`id`));

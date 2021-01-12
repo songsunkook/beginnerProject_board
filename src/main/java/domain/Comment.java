@@ -9,6 +9,7 @@ public class Comment {
     protected Long user_id;
     protected Timestamp created_at;
     protected Timestamp updated_at;
+    protected Timestamp deleted_at;
 
     public Long getId() {
         return id;
@@ -56,5 +57,13 @@ public class Comment {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public Timestamp getDeleted_at() {
+        return deleted_at;
+    }
+
+    public void setDeleted_at(Timestamp deleted_at) {
+        this.deleted_at = deleted_at;
     }
 }
