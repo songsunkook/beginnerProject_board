@@ -16,8 +16,14 @@
         where id = #{id}
     </update>
 
+    <update id="deleteComment">
+        update comment set
+        deleted_at = now()
+        where id = #{id}
+    </update>
+
     <select id="getComments" resultType="domain.Comment">
-        select * from comment where article_id = #{articleId}
+        select * from comment where article_id = #{articleId} and deleted_at is null
     </select>
 
     <select id="getCommentById" resultType="domain.Comment">

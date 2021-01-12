@@ -45,4 +45,14 @@ public class CommentController {
     public ResponseEntity<List<Comment>> updateComment(@PathVariable("article-id") Long articleId){
         return new ResponseEntity<>(commentService.getComments(articleId), HttpStatus.OK);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/{comment-id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제합니다.")
+    public ResponseEntity<String> deleteComment(@PathVariable("comment-id") Long commentId, HttpSession httpSession){
+        if(commentService.deleteComment(commentId, httpSession))
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

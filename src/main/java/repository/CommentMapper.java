@@ -9,6 +9,7 @@ import java.util.List;
 public interface CommentMapper {
     int createComment(Comment comment);
     int updateComment(Comment comment);
+    int deleteComment(Comment comment);
     List<Comment> getComments(Long articleId);
     Comment getCommentById(Long commentId);
 }

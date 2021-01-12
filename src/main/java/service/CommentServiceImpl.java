@@ -2,8 +2,6 @@ package service;
 
 import domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import repository.CommentMapper;
 
@@ -18,22 +16,29 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public boolean createComment(Comment comment, Long articleId, HttpSession httpSession) {
         Long userId = (Long)httpSession.getAttribute("userId");
-        if(userId != null){
-            comment.setArticle_id(articleId);
-            comment.setUser_id(userId);
-            return commentMapper.createComment(comment) == 1;
-        }
-        return false;
+        comment.setArticle_id(articleId);
+        comment.setUser_id(userId);
+        return commentMapper.createComment(comment) == 1;
     }
 
     @Override
     public boolean updateComment(Comment comment, Long commentId, HttpSession httpSession) {
         Long tryUserId = (Long)httpSession.getAttribute("userId");
         Comment dbComment = getCommentById(commentId);
-
-        if(tryUserId == dbComment.getUser_id()){
+        if(tryUserId == dbComment.getUser_id()
+                && dbComment.getDeleted_at() == null){
             comment.setId(dbComment.getId());
             return commentMapper.updateComment(comment) == 1;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteComment(Long commentId, HttpSession httpSession) {
+        Comment dbComment = getCommentById(commentId);
+        Long tryUserId = (Long)httpSession.getAttribute("userId");
+        if(tryUserId == dbComment.getUser_id()){
+            return commentMapper.deleteComment(dbComment) == 1;
         }
         return false;
     }
