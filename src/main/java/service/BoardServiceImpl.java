@@ -45,6 +45,28 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public List<Board> searchList(String value, Long pageNum, int type) {
+        Long maxPage;
+        String column;
+        switch (type){
+            case 1://닉네임
+                column = "user.nickname"; break;
+            case 2://제목
+                column = "board.title"; break;
+            case 3://내용
+                column = "board.content"; break;
+            default:
+                return null;
+        }
+        maxPage = ( boardMapper.getArticleCountByColumn(column, value) / 10 ) + 1;
+        if(pageNum <= 0)
+            pageNum = 1L;
+        if(pageNum > maxPage)
+            pageNum = maxPage;
+        return boardMapper.searchList(column, (pageNum-1)*10, value);
+    }
+
+    @Override
     public boolean likeArticle(Long articleId, HttpSession httpSession) throws Exception {
         Long userId = (Long)httpSession.getAttribute("userId");
         Like like = likeMapper.getLike(articleId, userId);
@@ -68,7 +90,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Boolean softDeleteArticle(Long articleId, HttpSession httpSession) {
+    public boolean softDeleteArticle(Long articleId, HttpSession httpSession) {
         Long userId = (Long)httpSession.getAttribute("userId");
         Board dbBoard = getArticleById(articleId);
         if(userId == dbBoard.getUser_id()

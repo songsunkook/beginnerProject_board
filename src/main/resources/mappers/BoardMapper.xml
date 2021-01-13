@@ -20,8 +20,23 @@
         limit #{minArticle}, 10
     </select>
 
+    <select id="searchList" resultType="domain.Board">
+        select * from board join user
+        on board.deleted_at is null
+        and ${column} like concat('%', #{value}, '%') and board.user_id = user.id
+        order by board.id desc
+        limit #{minArticle}, 10
+    </select>
+
     <select id="getArticleCount" resultType="Long">
-        select count(*) from board where deleted_at is null
+        select count(*) from board
+        where deleted_at is null
+    </select>
+
+    <select id="getArticleCountByColumn" resultType="Long">
+        select count(*) from board join user
+        where board.deleted_at is null
+        and ${column} like concat('%', #{value}, '%') and board.user_id = user.id
     </select>
 
     <update id="updateArticle">
@@ -63,5 +78,6 @@
         on user.id = #{user_id}
     </select>
 -->
+
 
 </mapper>

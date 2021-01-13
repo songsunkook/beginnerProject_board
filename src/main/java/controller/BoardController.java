@@ -47,6 +47,27 @@ public class BoardController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/search/nickname/{nickname}/list/{page-number}", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 검색 (닉네임)", notes = "닉네임으로 게시글을 검색합니다.")
+    public ResponseEntity<List<Board>> searchListByNickname(@PathVariable("nickname") String nickname, @PathVariable("page-number") Long pageNum){
+        return new ResponseEntity<>(boardService.searchList(nickname, pageNum, 1), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/search/title/{title}/list/{page-number}", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 검색 (제목)", notes = "제목으로 게시글을 검색합니다.")
+    public ResponseEntity<List<Board>> searchListByTitle(@PathVariable("title") String title, @PathVariable("page-number") Long pageNum){
+        return new ResponseEntity<>(boardService.searchList(title, pageNum, 2), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/search/content/{content}/list/{page-number}", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 검색 (내용)", notes = "내용으로 게시글을 검색합니다.")
+    public ResponseEntity<List<Board>> searchListByContent(@PathVariable("content") String content, @PathVariable("page-number") Long pageNum){
+        return new ResponseEntity<>(boardService.searchList(content, pageNum, 3), HttpStatus.OK);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/{article-id}", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "등록된 게시물을 수정합니다.")
     public ResponseEntity<String> updateArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, @PathVariable("article-id") Long articleId, HttpSession httpSession){
