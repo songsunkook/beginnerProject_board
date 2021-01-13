@@ -13,4 +13,6 @@ public interface BoardMapper {
     int updateArticle(Board board);
     int softDeleteArticle(Board board);
     void increaseViews(Board board);
+    void increaseLikes(Board board);
+    void decreaseLikes(Board board);
 }

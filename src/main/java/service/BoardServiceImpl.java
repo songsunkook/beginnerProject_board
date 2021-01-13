@@ -1,12 +1,14 @@
 package service;
 
 import domain.Board;
+import domain.Like;
 import domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import repository.BoardMapper;
+import repository.LikeMapper;
 import repository.UserMapper;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,8 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService{
     @Autowired
     BoardMapper boardMapper;
+    @Autowired
+    LikeMapper likeMapper;
 
     @Override
     public boolean createArticle(Board board, HttpSession httpSession) {
@@ -38,6 +42,29 @@ public class BoardServiceImpl implements BoardService{
             return boardMapper.updateArticle(board) == 1;
         }
         return false;
+    }
+
+    @Override
+    public boolean likeArticle(Long articleId, HttpSession httpSession) throws Exception {
+        Long userId = (Long)httpSession.getAttribute("userId");
+        Like like = likeMapper.getLike(articleId, userId);
+        Board board = getArticleById(articleId);
+        if(board != null) {
+            //아직 좋아요를 안눌렀다면
+            if (like == null) {
+                boardMapper.increaseLikes(board);
+                likeMapper.setLike(articleId, userId);
+                return true;
+            }
+            //좋아요를 이미 눌렀다면
+            else {
+                boardMapper.decreaseLikes(board);
+                likeMapper.setUnLike(like);
+                return false;
+            }
+        }
+        else
+            throw new Exception("This article does not exist.");
     }
 
     @Override

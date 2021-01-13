@@ -31,6 +31,18 @@
         where id = #{id}
     </update>
 
+    <update id="increaseLikes">
+        update board set
+        likes = likes + 1
+        where id = #{id}
+    </update>
+
+    <update id="decreaseLikes">
+        update board set
+        likes = likes - 1
+        where id = #{id}
+    </update>
+
     <update id="softDeleteArticle">
         update board set
         deleted_at = now()

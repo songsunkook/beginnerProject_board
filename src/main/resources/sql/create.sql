@@ -14,6 +14,7 @@ CREATE TABLE `beginner_project`.`board` (
   `title` VARCHAR(200) NOT NULL,
   `content` VARCHAR(5000) NOT NULL,
   `user_id` INT NOT NULL,
+  `likes` INT NOT NULL DEFAULT 0,
   `views` INT NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -28,4 +29,10 @@ CREATE TABLE `beginner_project`.`comment` (
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `beginner_project`.`like` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `article_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`));

@@ -2,6 +2,7 @@ package controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import domain.Board;
+import domain.Like;
 import domain.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -63,5 +64,20 @@ public class BoardController {
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{article-id}/like", method = RequestMethod.POST)
+    @ApiOperation(value = "게시글 좋아요", notes = "게시글에 좋아요 또는 좋아요 취소를 진행합니다.")
+    public ResponseEntity<String> likeArticle(@PathVariable("article-id") Long articleId, HttpSession httpSession){
+        try {
+            if (boardService.likeArticle(articleId, httpSession))
+                return new ResponseEntity<>("like it !", HttpStatus.OK);
+            else
+                return new ResponseEntity<>("Unlike it !", HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
