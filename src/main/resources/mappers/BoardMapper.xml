@@ -14,7 +14,14 @@
     </select>
 
     <select id="getList" resultType="domain.Board">
-        select * from board where deleted_at is null
+        select * from board
+        where deleted_at is null
+        order by id desc
+        limit #{minArticle}, 10
+    </select>
+
+    <select id="getArticleCount" resultType="Long">
+        select count(*) from board where deleted_at is null
     </select>
 
     <update id="updateArticle">

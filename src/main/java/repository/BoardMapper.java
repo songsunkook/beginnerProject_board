@@ -9,7 +9,8 @@ import java.util.List;
 public interface BoardMapper {
     int createArticle(Board board);
     Board getArticleById(Long articleId);
-    List<Board> getList();
+    List<Board> getList(Long minArticle);
+    Long getArticleCount();
     int updateArticle(Board board);
     int softDeleteArticle(Board board);
     void increaseViews(Board board);

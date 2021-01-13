@@ -40,10 +40,10 @@ public class BoardController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/list/{page-number}", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록", notes = "게시글 목록을 불러옵니다.")
-    public ResponseEntity<List<Board>> getList(){
-        return new ResponseEntity<>(boardService.getList(), HttpStatus.OK);
+    public ResponseEntity<List<Board>> getList(@PathVariable("page-number") Long pageNum){
+        return new ResponseEntity<>(boardService.getList(pageNum), HttpStatus.OK);
     }
 
     @ResponseBody

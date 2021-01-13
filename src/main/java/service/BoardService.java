@@ -12,5 +12,5 @@ public interface BoardService {
     Boolean softDeleteArticle(Long articleId, HttpSession httpSession);
     Board getArticleById(Long articleId);
     Board readArticle(Long articleId);
-    List<Board> getList();
+    List<Board> getList(Long pageNum);
 }
