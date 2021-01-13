@@ -7,6 +7,7 @@ public class Board {
     protected String title;
     protected String content;
     protected Long user_id;
+    protected Long likes;
     protected Long views;
     protected Timestamp created_at;
     protected Timestamp updated_at;
@@ -74,5 +75,13 @@ public class Board {
 
     public void setViews(Long views) {
         this.views = views;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }
