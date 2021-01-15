@@ -40,30 +40,30 @@ public class BoardController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/list/{page-number}", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록", notes = "게시글 목록을 불러옵니다.")
-    public ResponseEntity<List<Board>> getList(@PathVariable("page-number") Long pageNum){
+    public ResponseEntity<List<Board>> getList(@RequestParam(value = "page-number", required = false) Long pageNum){
         return new ResponseEntity<>(boardService.getList(pageNum), HttpStatus.OK);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/search/nickname/{nickname}/list/{page-number}", method = RequestMethod.GET)
+    @RequestMapping(value = "/nickname", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 검색 (닉네임)", notes = "닉네임으로 게시글을 검색합니다.")
-    public ResponseEntity<List<Board>> searchListByNickname(@PathVariable("nickname") String nickname, @PathVariable("page-number") Long pageNum){
+    public ResponseEntity<List<Board>> searchListByNickname(@RequestParam(value = "nickname", required = true) String nickname, @RequestParam(value = "page-number",required = false) Long pageNum){
         return new ResponseEntity<>(boardService.searchList(nickname, pageNum, 1), HttpStatus.OK);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/search/title/{title}/list/{page-number}", method = RequestMethod.GET)
+    @RequestMapping(value = "/title", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 검색 (제목)", notes = "제목으로 게시글을 검색합니다.")
-    public ResponseEntity<List<Board>> searchListByTitle(@PathVariable("title") String title, @PathVariable("page-number") Long pageNum){
+    public ResponseEntity<List<Board>> searchListByTitle(@RequestParam(value = "title", required = true) String title, @RequestParam(value = "page-number",required = false) Long pageNum){
         return new ResponseEntity<>(boardService.searchList(title, pageNum, 2), HttpStatus.OK);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/search/content/{content}/list/{page-number}", method = RequestMethod.GET)
+    @RequestMapping(value = "/content", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 검색 (내용)", notes = "내용으로 게시글을 검색합니다.")
-    public ResponseEntity<List<Board>> searchListByContent(@PathVariable("content") String content, @PathVariable("page-number") Long pageNum){
+    public ResponseEntity<List<Board>> searchListByContent(@RequestParam(value = "content", required = true) String content, @RequestParam(value = "page-number",required = false) Long pageNum){
         return new ResponseEntity<>(boardService.searchList(content, pageNum, 3), HttpStatus.OK);
     }
 

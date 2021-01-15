@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService{
                 return null;
         }
         maxPage = ( boardMapper.getArticleCountByColumn(column, value) / 10 ) + 1;
-        if(pageNum <= 0)
+        if(pageNum == null || pageNum <= 0)
             pageNum = 1L;
         if(pageNum > maxPage)
             pageNum = maxPage;
@@ -120,7 +120,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<Board> getList(Long pageNum) {
         Long maxPage = ( boardMapper.getArticleCount() / 10 ) + 1;
-        if(pageNum <= 0)
+        if(pageNum == null || pageNum <= 0)
             pageNum = 1L;
         if(pageNum > maxPage)
             pageNum = maxPage;
