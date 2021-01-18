@@ -4,9 +4,12 @@ import domain.User;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.UserMapper;
 import util.BcryptUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -34,15 +37,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean login(User user, HttpSession httpSession) {
+    public boolean login(User user) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long tryUserId = (Long)request.getSession().getAttribute("userId");
         User dbUser = getUserByAccountId(user.getAccount_id());
 
         if(dbUser != null
                 && dbUser.getDeleted_at() == null
-                && httpSession.getAttribute("userId") == null
+                && tryUserId == null
                 && bcryptUtil.checkPassword(user.getPassword(), dbUser.getPassword()))
         {
-            httpSession.setAttribute("userId", dbUser.getId());
+            request.getSession().setAttribute("userId", dbUser.getId());
             return true;
         }
         else
@@ -50,8 +55,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void logout(HttpSession httpSession) {
-        httpSession.removeAttribute("userId");
+    public void logout() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        request.getSession().removeAttribute("userId");
     }
 
     @Override
@@ -77,20 +83,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userMapper.getUserById(id);
-    }
-
-    @Override
-    public boolean softDeleteUser(User user, HttpSession httpSession) {
-        Long userId = (Long)httpSession.getAttribute("userId");
+    public boolean softDeleteUser(User user) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long userId = (Long)request.getSession().getAttribute("userId");
         User dbUser = getUserByAccountId(user.getAccount_id());
         //1번째 인자 : NullPointerException 방지
         //2번째 인자 : 로그인된 id와 입력받은 accountId의 DB 상 id가 일치하는지 (로그인된 사람 본인인지)
         //3번째 인자 : accountId 와 password 가 match 되는지 (아이디 비밀번호 체크)
-        if( (userId != null) && (userId == dbUser.getId())  && login(user, httpSession)){
+        if( (userId != null) && (userId == dbUser.getId())  && login(user)){
             if(userMapper.softDeleteUser(dbUser) == 1){
-                httpSession.removeAttribute("userId");
+                logout();
                 return true;
             }
         }

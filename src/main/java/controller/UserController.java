@@ -36,8 +36,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "전달받은 정보를 기반으로 로그인을 진행합니다.")
-    public ResponseEntity<String> login(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user, HttpSession httpSession){
-        if(userService.login(user, httpSession))
+    public ResponseEntity<String> login(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user){
+        if(userService.login(user))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,8 +46,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     @ApiOperation(value = "로그아웃", notes = "세션을 제거하여 로그아웃합니다.")
-    public ResponseEntity<String> logout(HttpSession httpSession){
-        userService.logout(httpSession);
+    public ResponseEntity<String> logout(){
+        userService.logout();
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
@@ -64,8 +64,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/leaveId", method = RequestMethod.POST)
     @ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴를 진행합니다. (DB 정보 제거는 30일 후에 진행됩니다.)")
-    public ResponseEntity<String> deleteUser(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user, HttpSession httpSession){
-        if(userService.softDeleteUser(user, httpSession))
+    public ResponseEntity<String> deleteUser(@ApiParam(value = "(required: account_id, password)", required = true) @RequestBody User user){
+        if(userService.softDeleteUser(user))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

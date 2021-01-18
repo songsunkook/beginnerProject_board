@@ -3,8 +3,11 @@ package service;
 import domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.CommentMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -14,16 +17,18 @@ public class CommentServiceImpl implements CommentService{
     CommentMapper commentMapper;
 
     @Override
-    public boolean createComment(Comment comment, Long articleId, HttpSession httpSession) {
-        Long userId = (Long)httpSession.getAttribute("userId");
+    public boolean createComment(Comment comment, Long articleId) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long userId = (Long)request.getSession().getAttribute("userId");
         comment.setArticle_id(articleId);
         comment.setUser_id(userId);
         return commentMapper.createComment(comment) == 1;
     }
 
     @Override
-    public boolean updateComment(Comment comment, Long commentId, HttpSession httpSession) {
-        Long tryUserId = (Long)httpSession.getAttribute("userId");
+    public boolean updateComment(Comment comment, Long commentId) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long tryUserId = (Long)request.getSession().getAttribute("userId");
         Comment dbComment = getCommentById(commentId);
         if(tryUserId == dbComment.getUser_id()
                 && dbComment.getDeleted_at() == null){
@@ -34,9 +39,10 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public boolean deleteComment(Long commentId, HttpSession httpSession) {
+    public boolean deleteComment(Long commentId) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long tryUserId = (Long)request.getSession().getAttribute("userId");
         Comment dbComment = getCommentById(commentId);
-        Long tryUserId = (Long)httpSession.getAttribute("userId");
         if(tryUserId == dbComment.getUser_id()){
             return commentMapper.deleteComment(dbComment) == 1;
         }

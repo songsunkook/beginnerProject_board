@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.BoardMapper;
 import repository.LikeMapper;
 import repository.UserMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -22,8 +25,9 @@ public class BoardServiceImpl implements BoardService{
     LikeMapper likeMapper;
 
     @Override
-    public boolean createArticle(Board board, HttpSession httpSession) {
-        Long userId = (Long)httpSession.getAttribute("userId");
+    public boolean createArticle(Board board) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long userId = (Long)request.getSession().getAttribute("userId");
         if(userId != null){
             board.setUser_id(userId);
             return boardMapper.createArticle(board) == 1;
@@ -32,8 +36,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean updateArticle(Board board, Long articleId, HttpSession httpSession) {
-        Long tryUserId = (Long)httpSession.getAttribute("userId");
+    public boolean updateArticle(Board board, Long articleId) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long tryUserId = (Long)request.getSession().getAttribute("userId");
         Board dbBoard = getArticleById(articleId);
         if(dbBoard != null
                 && tryUserId == dbBoard.getUser_id()
@@ -67,8 +72,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean likeArticle(Long articleId, HttpSession httpSession) throws Exception {
-        Long userId = (Long)httpSession.getAttribute("userId");
+    public boolean likeArticle(Long articleId) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long userId = (Long)request.getSession().getAttribute("userId");
         Like like = likeMapper.getLike(articleId, userId);
         Board board = getArticleById(articleId);
         if(board != null) {
@@ -90,8 +96,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean softDeleteArticle(Long articleId, HttpSession httpSession) {
-        Long userId = (Long)httpSession.getAttribute("userId");
+    public boolean softDeleteArticle(Long articleId) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Long userId = (Long)request.getSession().getAttribute("userId");
         Board dbBoard = getArticleById(articleId);
         if(userId == dbBoard.getUser_id()
                 && dbBoard.getDeleted_at() == null){

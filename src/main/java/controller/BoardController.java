@@ -25,8 +25,8 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 작성", notes = "게시글을 작성합니다.")
-    public ResponseEntity<String> createArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, HttpSession httpSession){
-        if(boardService.createArticle(board, httpSession))
+    public ResponseEntity<String> createArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board){
+        if(boardService.createArticle(board))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,8 +70,8 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "/{article-id}", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "등록된 게시물을 수정합니다.")
-    public ResponseEntity<String> updateArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, @PathVariable("article-id") Long articleId, HttpSession httpSession){
-        if(boardService.updateArticle(board, articleId, httpSession))
+    public ResponseEntity<String> updateArticle(@ApiParam(value = "(required: title, content)", required = true) @RequestBody Board board, @PathVariable("article-id") Long articleId){
+        if(boardService.updateArticle(board, articleId))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,8 +80,8 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "/{article-id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 삭제", notes = "등록된 게시물을 삭제합니다.")
-    public ResponseEntity<String> deleteArticle(@PathVariable("article-id") Long articleId, HttpSession httpSession){
-        if(boardService.softDeleteArticle(articleId, httpSession))
+    public ResponseEntity<String> deleteArticle(@PathVariable("article-id") Long articleId){
+        if(boardService.softDeleteArticle(articleId))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,9 +90,9 @@ public class BoardController {
     @ResponseBody
     @RequestMapping(value = "/{article-id}/like", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 좋아요", notes = "게시글에 좋아요 또는 좋아요 취소를 진행합니다.")
-    public ResponseEntity<String> likeArticle(@PathVariable("article-id") Long articleId, HttpSession httpSession){
+    public ResponseEntity<String> likeArticle(@PathVariable("article-id") Long articleId){
         try {
-            if (boardService.likeArticle(articleId, httpSession))
+            if (boardService.likeArticle(articleId))
                 return new ResponseEntity<>("like it !", HttpStatus.OK);
             else
                 return new ResponseEntity<>("Unlike it !", HttpStatus.OK);

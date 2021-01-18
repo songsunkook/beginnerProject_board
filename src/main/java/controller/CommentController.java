@@ -22,8 +22,8 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ApiOperation(value = "댓글 작성", notes = "댓글을 작성합니다.")
-    public ResponseEntity<String> createComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId, HttpSession httpSession){
-        if(commentService.createComment(comment, articleId, httpSession))
+    public ResponseEntity<String> createComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment, @PathVariable("article-id") Long articleId){
+        if(commentService.createComment(comment, articleId))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -32,8 +32,8 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "/{comment-id}", method = RequestMethod.PUT)
     @ApiOperation(value = "댓글 수정", notes = "작성된 댓글을 수정합니다.")
-    public ResponseEntity<String> updateComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment,  @PathVariable("comment-id") Long commentId, HttpSession httpSession){
-        if(commentService.updateComment(comment, commentId, httpSession))
+    public ResponseEntity<String> updateComment(@ApiParam(value = "(required: content)", required = true) @RequestBody Comment comment,  @PathVariable("comment-id") Long commentId){
+        if(commentService.updateComment(comment, commentId))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -49,8 +49,8 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "/{comment-id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제합니다.")
-    public ResponseEntity<String> deleteComment(@PathVariable("comment-id") Long commentId, HttpSession httpSession){
-        if(commentService.deleteComment(commentId, httpSession))
+    public ResponseEntity<String> deleteComment(@PathVariable("comment-id") Long commentId){
+        if(commentService.deleteComment(commentId))
             return new ResponseEntity<>("success", HttpStatus.OK);
         else
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
