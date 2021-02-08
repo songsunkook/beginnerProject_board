@@ -1,5 +1,6 @@
 package service;
 
+import domain.SlackNotiAttachment;
 import domain.User;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.UserMapper;
 import util.BcryptUtil;
+import util.SlackNotiSender;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
     @Autowired
     BcryptUtil bcryptUtil;
+    @Autowired
+    SlackNotiSender slackNotiSender;
 
     @Override
     public boolean register(User user) {
@@ -48,6 +52,15 @@ public class UserServiceImpl implements UserService{
                 && bcryptUtil.checkPassword(user.getPassword(), dbUser.getPassword()))
         {
             request.getSession().setAttribute("userId", dbUser.getId());
+
+            //===Slack Notification Test===
+            SlackNotiAttachment attachment = new SlackNotiAttachment();
+            attachment.setTitle(this.getClass().getName());
+            attachment.setText("user \"" + dbUser.getNickname() + "\" is logged in.");
+            attachment.setColor("good");
+            slackNotiSender.sendTestNotice(attachment);
+            //=============================
+
             return true;
         }
         else

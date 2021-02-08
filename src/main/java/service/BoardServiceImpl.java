@@ -101,7 +101,7 @@ public class BoardServiceImpl implements BoardService{
         Long userId = (Long)request.getSession().getAttribute("userId");
         Board dbBoard = getArticleById(articleId);
         if(userId == dbBoard.getUser_id()
-                && dbBoard.getDeleted_at() == null){
+                && dbBoard.getDeleted_at() == null){//예외처리 부족 (Null) - null user && null board - 시나리오를 구성해서 예외처리하기
             return boardMapper.softDeleteArticle(dbBoard) == 1;
         }
         return false;
