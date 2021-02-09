@@ -21,7 +21,7 @@ public class SlackNotiSender {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    public void sendTestNotice(Object attachmentData){
+    public void sendNotice(Object attachmentData){
         final List<Object> attachment = new ArrayList<Object>();
         attachment.add(attachmentData);
         Map<String, Object> params = new HashMap<String, Object>() {{

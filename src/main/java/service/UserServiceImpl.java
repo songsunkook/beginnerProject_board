@@ -54,11 +54,11 @@ public class UserServiceImpl implements UserService{
             request.getSession().setAttribute("userId", dbUser.getId());
 
             //===Slack Notification Test===
-            SlackNotiAttachment attachment = new SlackNotiAttachment();
-            attachment.setTitle(this.getClass().getName());
-            attachment.setText("user \"" + dbUser.getNickname() + "\" is logged in.");
-            attachment.setColor("good");
-            slackNotiSender.sendTestNotice(attachment);
+            //SlackNotiAttachment attachment = new SlackNotiAttachment();
+            //attachment.setTitle(this.getClass().getName());
+            //attachment.setText("user \"" + dbUser.getNickname() + "\" is logged in.");
+            //attachment.setColor("good");
+            //slackNotiSender.sendNotice(attachment);
             //=============================
 
             return true;
