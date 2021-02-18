@@ -10,6 +10,7 @@
     <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
     <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
 
+    <context:component-scan base-package="aop"/>
     <context:component-scan base-package="controller"/>
     <context:component-scan base-package="service"/>
     <context:component-scan base-package="swagger"/>

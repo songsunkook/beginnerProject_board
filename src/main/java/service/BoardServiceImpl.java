@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.BoardMapper;
 import repository.LikeMapper;
 import repository.UserMapper;
+import util.XSSFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,8 @@ public class BoardServiceImpl implements BoardService{
     BoardMapper boardMapper;
     @Autowired
     LikeMapper likeMapper;
+    @Autowired
+    XSSFilter xssFilter;
 
     @Override
     public boolean createArticle(Board board) {
@@ -30,6 +33,8 @@ public class BoardServiceImpl implements BoardService{
         Long userId = (Long)request.getSession().getAttribute("userId");
         if(userId != null){
             board.setUser_id(userId);
+            board.setTitle(xssFilter.escape(board.getTitle()));
+            board.setContent(xssFilter.escape(board.getContent()));
             return boardMapper.createArticle(board) == 1;
         }
         return false;
