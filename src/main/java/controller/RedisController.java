@@ -1,5 +1,5 @@
 package controller;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,4 +24,4 @@ public class RedisController {
         return new ResponseEntity<String>(redisService.setStr(key, value), HttpStatus.OK);
     }
 
-}
+}*/

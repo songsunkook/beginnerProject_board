@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
+/*
 @Service
 public class RedisServiceImpl implements RedisService{
 
@@ -25,4 +25,4 @@ public class RedisServiceImpl implements RedisService{
         String result = valueOps.get(key);
         return result;
     }
-}
+}*/

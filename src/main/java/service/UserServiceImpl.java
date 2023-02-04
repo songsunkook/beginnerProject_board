@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.UserMapper;
 import util.BcryptUtil;
-import util.SlackNotiSender;
+//import util.SlackNotiSender;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,11 +27,12 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
     @Autowired
     BcryptUtil bcryptUtil;
-    @Autowired
-    SlackNotiSender slackNotiSender;
+    //@Autowired
+    //SlackNotiSender slackNotiSender;
 
     @Override
     public boolean register(User user) {
+        System.out.println("dd");
         if(userMapper.getUserByAccountId(user.getAccount_id()) == null){
             user.setPassword( bcryptUtil.Encrypt(user.getPassword()) );
             return userMapper.createUser(user) == 1;

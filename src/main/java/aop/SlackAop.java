@@ -1,5 +1,5 @@
 package aop;
-
+/*
 import domain.SlackNotiAttachment;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,3 +38,4 @@ public class SlackAop {
         slackNotiSender.sendNotice(attachment);
     }
 }
+*/

@@ -6,7 +6,7 @@
 <mapper namespace="repository.UserMapper">
 
     <select id="getUserByAccountId" resultType="domain.User">
-        select * from user where account_id = #{accountId}
+        select * from user where account_id = #{account_id}
     </select>
 
     <select id="getDeletedUsers" resultType="domain.User">
