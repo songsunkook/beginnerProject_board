@@ -42,6 +42,7 @@
             <list><ref bean="userJobTrigger" /></list>
         </property>
     </bean>
+    <bean id="userServiceImpl" class="java.lang.Object"/>
 
 
 </beans>
