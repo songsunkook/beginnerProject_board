@@ -8,6 +8,7 @@
 
     <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
     <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
